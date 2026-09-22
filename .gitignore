@@ -1,0 +1,44 @@
+# ── Código y build de AzerothCore (vive al lado, no acá) ──
+azerothcore-wotlk/
+build/
+*.o
+*.so
+*.a
+
+# ── Assets del cliente: NUNCA entran al repo ──
+dbc/
+maps/
+vmaps/
+mmaps/
+Cameras/
+*.MPQ
+*.mpq
+*.m2
+*.wmo
+*.adt
+*.blp
+
+# ── Datos de jugadores y secretos ──
+backups/
+*.sql.gz
+*.dump
+dump_*.sql
+acore_characters*.sql
+.env
+*.conf
+!*.conf.dist
+credentials*
+*.pem
+*.key
+
+# ── Logs y crashes ──
+logs/
+*.log
+Crashes/
+core.*
+
+# ── Sistema ──
+.DS_Store
+Thumbs.db
+*.swp
+*~
