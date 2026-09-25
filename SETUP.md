@@ -2,6 +2,11 @@
 
 Dos caminos. Elegí uno y anotá cuál usás en `docs/servidor/perfil-servidor.md`.
 
+> **¿Estás en Windows?** Andá directo a
+> [`docs/operacion/instalacion-windows-docker.md`](docs/operacion/instalacion-windows-docker.md).
+> Es el procedimiento que usa este servidor: WSL2 + Docker, sin compilar,
+> probado de punta a punta y con las trampas documentadas.
+
 ---
 
 ## Camino A — Docker (recomendado para empezar)

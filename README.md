@@ -31,6 +31,15 @@ que usa Claude Code para trabajar sobre ese código sin romper nada.
 | `/balance` | Revisa rates y configuración de economía/XP |
 | `/deploy` | Prepara y ejecuta un despliegue con backup previo |
 
+## Documentos que conviene leer primero
+
+| Archivo | Para qué |
+|---|---|
+| [`docs/operacion/instalacion-windows-docker.md`](docs/operacion/instalacion-windows-docker.md) | Instalar de cero en Windows, sin compilar. Probado |
+| [`docs/servidor/perfil-servidor.md`](docs/servidor/perfil-servidor.md) | Cómo está configurado este servidor y qué falta |
+| [`recursos/comandos-gm.md`](recursos/comandos-gm.md) | Comandos GM verificados contra la tabla `command` |
+| [`docs/operacion/runbook.md`](docs/operacion/runbook.md) | Deploys, backups, emergencias |
+
 ## Estructura
 
 Ver la tabla en [`CLAUDE.md`](CLAUDE.md).
