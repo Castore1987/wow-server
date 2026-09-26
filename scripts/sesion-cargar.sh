@@ -87,12 +87,16 @@ docker compose up -d
 { echo "$ESTA_PC"; date '+%F %H:%M:%S'; } > "$LOCK_FILE"
 
 echo
+esperar_mundo || true
+
+echo
 verde "═══════════════════════════════════════════════════════"
 verde " Listo. La sesión es de esta PC ($ESTA_PC)."
 verde "═══════════════════════════════════════════════════════"
 echo
-echo "El mundo tarda un par de minutos en cargar. Para mirar:"
-echo "    docker compose logs -f ac-worldserver"
+
+abrir_cliente
+
 echo
-amar "Cuando termines de jugar, NO te olvides:"
-amar "    ./scripts/sesion-guardar.sh"
+amar "Cuando termines de jugar, NO te olvides de cerrar la sesión:"
+amar "    ./scripts/sesion-guardar.sh    (o el acceso directo TERMINAR)"

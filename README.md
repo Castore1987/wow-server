@@ -38,6 +38,7 @@ que usa Claude Code para trabajar sobre ese código sin romper nada.
 | [`docs/operacion/instalacion-windows-docker.md`](docs/operacion/instalacion-windows-docker.md) | Instalar de cero en Windows, sin compilar. Probado |
 | [`docs/operacion/instalacion-bajo-consumo.md`](docs/operacion/instalacion-bajo-consumo.md) | La misma instalación con Docker dentro de Ubuntu: ~700 MB menos. Para 8 GB |
 | [`docs/operacion/dos-pcs-sesion.md`](docs/operacion/dos-pcs-sesion.md) | Mover el progreso entre dos PCs sin pisar nada |
+| [`docs/operacion/accesos-directos.md`](docs/operacion/accesos-directos.md) | Jugar con un doble clic: JUGAR / TERMINAR / ESTADO |
 | [`docs/servidor/perfil-servidor.md`](docs/servidor/perfil-servidor.md) | Cómo está configurado este servidor y qué falta |
 | [`recursos/comandos-gm.md`](recursos/comandos-gm.md) | Comandos GM verificados contra la tabla `command` |
 | [`docs/operacion/runbook.md`](docs/operacion/runbook.md) | Deploys, backups, emergencias |
