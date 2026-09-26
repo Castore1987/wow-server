@@ -42,3 +42,6 @@ core.*
 Thumbs.db
 *.swp
 *~
+
+# Config local de las sesiones (rutas propias de cada PC)
+scripts/sesion-config.local.sh
