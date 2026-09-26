@@ -37,10 +37,27 @@ Todos en el valor blizzlike (`1`). No se tocó `worldserver.conf`.
 
 ## Infraestructura
 
-- **Dónde corre**: PC de escritorio con Windows 11
-- **Cómo corre**: WSL2 (Ubuntu) + Docker Desktop, con las imágenes oficiales
-  `acore/ac-wotlk-*`. Sin compilar nada.
-- **Usuario de Linux**: `chester` · **host**: `Estudio`
+Dos máquinas, cada una con instalación completa. El progreso viaja entre ellas
+con los scripts de `docs/operacion/dos-pcs-sesion.md`.
+
+| | Escritorio | Laptop |
+|---|---|---|
+| Host | `Estudio` | `LAPTOP-K79N6927` |
+| RAM | 12 GB | 8 GB |
+| Docker | Docker Desktop | **Engine dentro de Ubuntu** (~700 MB menos) |
+| Techo de WSL | sin configurar | `memory=4GB`, `swap=4GB` |
+| MySQL | por defecto | `performance-schema=OFF`, buffer pool 256M |
+| Rol | Servidor principal | Secundario, para cuando no está en casa |
+| Diff medido | — | **3 ms de media** |
+
+La laptop está documentada en `docs/operacion/instalacion-bajo-consumo.md`.
+Es la variante recomendada: consume menos y no depende de Docker Desktop.
+
+- **Sincronización entre PCs**: pendrive (`/mnt/e/wow-server`). Google Drive
+  quedó descartado porque en modo *stream* monta una unidad virtual que WSL no ve.
+- **Cómo corre**: WSL2 (Ubuntu) + imágenes oficiales `acore/ac-wotlk-*`.
+  Sin compilar nada.
+- **Usuario de Linux**: `chester` en ambas
 - **Ruta del repo de AzerothCore**: `~/azerothcore-wotlk` (dentro del sistema de
   archivos de Linux, no en `/mnt/c` — importante para el rendimiento)
 - **Producción separada**: no hay. Es local.

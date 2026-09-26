@@ -1,7 +1,15 @@
 # Jugar en dos PCs con la sesión sincronizada
 
 Cada PC tiene su propia instalación completa del servidor. Lo único que viaja
-por la nube son **tus personajes**: unos pocos MB.
+entre ellas son **tus personajes**: unos pocos MB.
+
+El destino puede ser una carpeta de nube (Drive, Dropbox, OneDrive) **o un
+pendrive**. A los scripts les da igual: `WOW_SYNC_DIR` es una carpeta y punto.
+
+> Sobre el pendrive: antes descartamos usarlo para **correr** el servidor, por
+> el desgaste que le provoca la escritura constante de MySQL. Copiar un archivo
+> de pocos MB al terminar de jugar es otra cosa completamente distinta, y para
+> eso está perfecto.
 
 ```
    PC de casa                 Nube                    PC portátil
@@ -25,7 +33,11 @@ No depende de que te acuerdes. Depende del candado.
 ## Preparar cada PC (una vez)
 
 1. Instalación normal del servidor (ver `instalacion-windows-docker.md`).
-2. Instalar el cliente de nube (Drive, Dropbox, OneDrive) y dejar que sincronice.
+2. Elegir el destino:
+   - **Nube**: instalar el cliente (Drive, Dropbox, OneDrive) y dejar que sincronice.
+     Ojo con Google Drive en modo *stream*: monta una unidad virtual (`G:`) que
+     **WSL no puede ver**. Hay que pasarlo a "Duplicar archivos" o usar otra cosa.
+   - **Pendrive**: enchufarlo y montarlo (ver abajo).
 3. En el repo:
 
 ```bash
@@ -58,8 +70,29 @@ cd ~/wow-server && ./scripts/sesion-cargar.sh
 cd ~/wow-server && ./scripts/sesion-guardar.sh
 ```
 
-Esperá a que la nube termine de subir antes de arrancar en la otra PC (mirá el
-ícono de Drive/Dropbox).
+Con nube: esperá a que termine de subir antes de arrancar en la otra PC.
+Con pendrive: expulsalo desde Windows antes de desenchufarlo.
+
+## Si el destino es un pendrive
+
+WSL no monta las unidades removibles solas cuando las enchufás después de
+arrancar. Cada vez que lo conectes:
+
+```bash
+sudo mount -t drvfs E: /mnt/e 2>/dev/null
+```
+
+Para no tipearlo siempre:
+
+```bash
+echo "alias pen='sudo mount -t drvfs E: /mnt/e 2>/dev/null; ls /mnt/e/wow-server'" >> ~/.bashrc
+source ~/.bashrc
+```
+
+Después alcanza con escribir `pen`.
+
+No hace falta formatearlo en NTFS: eso aplicaba a guardar el disco virtual de
+Linux, no a copiar un archivo de pocos MB.
 
 ## Qué hace cada script
 

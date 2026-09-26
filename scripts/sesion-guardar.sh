@@ -67,9 +67,17 @@ done
 echo
 verde "═══════════════════════════════════════════════════════"
 verde " Sesión guardada y liberada."
-verde "  Nube:  $NOMBRE  ($(du -h "$DESTINO" | cut -f1))"
-verde "  Local: $LOCAL"
+verde "  Destino: $NOMBRE  ($(du -h "$DESTINO" | cut -f1))"
+verde "  Local:   $LOCAL"
 verde "═══════════════════════════════════════════════════════"
 echo
-amar "Esperá a que la nube termine de sincronizar antes de"
-amar "arrancar en la otra PC. Fijate el ícono de Drive/Dropbox."
+case "$WOW_SYNC_DIR" in
+  /mnt/[d-z]/*)
+    amar "Antes de desenchufar el pendrive, expulsalo desde Windows"
+    amar "para que Windows termine de escribir."
+    ;;
+  *)
+    amar "Esperá a que termine de sincronizar antes de arrancar"
+    amar "en la otra PC (mirá el ícono de tu cliente de nube)."
+    ;;
+esac
