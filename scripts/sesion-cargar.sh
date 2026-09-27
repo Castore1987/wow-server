@@ -83,6 +83,9 @@ fi
 echo "Levantando el servidor..."
 docker compose up -d
 
+# Sin esto, WSL se apaga al cerrar la ventana y se lleva los contenedores.
+iniciar_keepalive
+
 # --- Tomar el candado -----------------------------------------------
 { echo "$ESTA_PC"; date '+%F %H:%M:%S'; } > "$LOCK_FILE"
 

@@ -58,6 +58,7 @@ rm -f "$LOCK_FILE"
 
 # --- Apagar el resto --------------------------------------------------
 docker compose stop
+detener_keepalive
 
 # --- Limpieza de sesiones viejas en la nube (dejamos las últimas 10) --
 ls -1t "$WOW_SYNC_DIR"/sesion_*.sql.gz 2>/dev/null | tail -n +11 | while read -r v; do

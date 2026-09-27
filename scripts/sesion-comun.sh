@@ -96,3 +96,56 @@ abrir_cliente() {
   ( cd /mnt/c 2>/dev/null || cd /; cmd.exe /c start "" "$WOW_CLIENTE_EXE" ) >/dev/null 2>&1 \
     || amar "No pude abrir el cliente. Revisá WOW_CLIENTE_EXE."
 }
+
+# ── Mantener WSL despierto ────────────────────────────────────────
+#
+# Con Docker Engine dentro de Ubuntu (en vez de Docker Desktop), WSL apaga
+# la distro cuando no le queda ningún proceso corriendo — y se lleva puesto
+# el demonio de Docker y todos los contenedores.
+#
+# Docker Desktop evitaba esto porque mantenía sus propias distros vivas.
+# Acá lo resolvemos dejando un proceso testigo: mientras exista, WSL no
+# apaga nada. `setsid` lo separa de la terminal para que sobreviva al
+# cierre de la ventana que lo lanzó.
+#
+# Se rastrea por archivo de PID, no por nombre: buscar el proceso por su
+# nombre con pgrep/pkill también matchea a este mismo script (el nombre
+# aparece en su texto) y termina matando la sesión que lo invocó.
+
+KEEPALIVE_PID_FILE="/tmp/wow-keepalive.pid"
+
+keepalive_activo() {
+  local pid
+  [ -f "$KEEPALIVE_PID_FILE" ] || return 1
+  pid=$(cat "$KEEPALIVE_PID_FILE" 2>/dev/null) || return 1
+  [ -n "$pid" ] || return 1
+  kill -0 "$pid" 2>/dev/null || return 1
+  # Que el PID no haya sido reciclado por otro proceso cualquiera
+  [ "$(ps -o comm= -p "$pid" 2>/dev/null)" = "sleep" ]
+}
+
+iniciar_keepalive() {
+  keepalive_activo && return 0
+
+  # El hijo anota su propio PID y después se convierte en el sleep,
+  # así el PID del archivo es exactamente el del proceso que queda vivo.
+  setsid bash -c "echo \$\$ > '$KEEPALIVE_PID_FILE'; exec sleep infinity" \
+    >/dev/null 2>&1 </dev/null &
+  disown 2>/dev/null || true
+  sleep 1
+
+  if keepalive_activo; then
+    echo "WSL quedará despierto mientras juegues."
+  else
+    amar "No pude dejar el proceso que mantiene WSL despierto."
+    amar "El servidor puede apagarse solo al cerrar la ventana."
+  fi
+}
+
+detener_keepalive() {
+  if keepalive_activo; then
+    kill "$(cat "$KEEPALIVE_PID_FILE")" 2>/dev/null || true
+    echo "WSL liberado."
+  fi
+  rm -f "$KEEPALIVE_PID_FILE"
+}

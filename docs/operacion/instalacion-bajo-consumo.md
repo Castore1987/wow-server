@@ -26,6 +26,41 @@ lo mismo en los dos casos.
 **Lo que se pierde:** el arranque automático con Windows y el panel gráfico. Con
 esta variante hay que levantar el servidor a mano (o con los scripts de sesión).
 
+## La trampa: WSL se apaga y se lleva los contenedores
+
+Esta es la contrapartida real de sacar Docker Desktop, y conviene saberla antes
+de que te muerda.
+
+WSL apaga una distro cuando no le queda **ningún proceso corriendo**. Docker
+Desktop lo evitaba porque mantenía sus propias distros vivas todo el tiempo. Sin
+él, en cuanto se cierra la última ventana de Ubuntu, WSL apaga la distro y se
+lleva puesto el demonio de Docker y todos los contenedores.
+
+Cómo se ve el síntoma: levantás el servidor, se cierra la ventana, y cuando
+volvés a mirar los contenedores dicen `Up Less than a second` aunque los
+hayas creado hace horas. No siguieron corriendo: **se acaban de reiniciar**
+porque invocar WSL volvió a levantar la distro (el `restart: unless-stopped`
+del compose los revive).
+
+### La solución
+
+`sesion-cargar.sh` deja un proceso testigo (`sleep infinity`) separado de la
+terminal con `setsid`. Mientras exista, WSL no apaga nada.
+`sesion-guardar.sh` lo termina al cerrar la sesión.
+
+Se rastrea con un **archivo de PID** (`/tmp/wow-keepalive.pid`), no buscando el
+proceso por nombre. Buscarlo por nombre con `pgrep -f` / `pkill -f` también
+matchea al propio script —el nombre aparece en su texto— y termina matando la
+sesión que lo invocó.
+
+Si no usás los scripts y levantás el servidor a mano, dejá una ventana de
+Ubuntu abierta mientras jugás, o lanzá el testigo vos:
+
+```bash
+setsid bash -c 'echo $$ > /tmp/wow-keepalive.pid; exec sleep infinity' \
+  >/dev/null 2>&1 </dev/null &
+```
+
 ## Instalación
 
 ### 1. WSL2
