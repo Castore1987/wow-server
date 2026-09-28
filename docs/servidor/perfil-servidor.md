@@ -29,7 +29,13 @@ rates están en el valor original.
 
 ## Rates
 
-Todos en el valor blizzlike (`1`). No se tocó `worldserver.conf`.
+**Ya no son blizzlike.** Ver [`docs/progresion/rates.md`](../progresion/rates.md)
+para la tabla completa y [`desvios-blizzlike.md`](../progresion/desvios-blizzlike.md)
+para el motivo.
+
+Resumen: XP x10, oro x5, reputación x5, drops de x3 a x10 según calidad.
+Se aplican como variables de entorno `AC_RATE_*` en
+`docker-compose.override.yml`, no editando `worldserver.conf`.
 
 | Config | Valor |
 |---|---|
